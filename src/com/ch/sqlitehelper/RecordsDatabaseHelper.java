@@ -1,5 +1,12 @@
-package com.ch.commutils;
+package com.ch.sqlitehelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.ch.entity.CategoryBean;
+import com.ch.entity.GoodsBean;
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -10,9 +17,9 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 	
 	private static final String DATABASE_NAME = "RecordsLocalData.db";
 	private static final int DATABASE_VERSION = 1;
-	public static final String GOODS_TABLE_NAME = "GoodTableName";
+	public static final String GOODS_TABLE_NAME = "GoodsTableName";
 	
-	private static final String CREAT_TABLE_COLUMN = "(_id integer primary key,"
+	private static final String CREAT_TABLE_COLUMN = "(id integer primary key,"
 			+ "goodname VARCHAR(255),"
 			+ "goodprice VARCHAR(255),"
 			+ "recordtime integer)";
@@ -25,7 +32,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// TODO Auto-generated method stub
-		LogTool.logger(TAG, "currentTime=" + System.currentTimeMillis());
+		//LogTool.logger(TAG, "currentTime=" + System.currentTimeMillis());
 		db.execSQL("CREATE TABLE " + GOODS_TABLE_NAME + CREAT_TABLE_COLUMN);
 	}
 
@@ -34,5 +41,23 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void insertGoodsBean(GoodsBean goodsbean){
+		SQLiteDatabase database = getWritableDatabase();
+	    ContentValues values = new ContentValues();
+	    //values.put(key, value)
+		database.insert(GOODS_TABLE_NAME, null, values);
+	}
 
+	
+	public List<CategoryBean> queryCategoryBeans(){
+		List<CategoryBean> lists =new ArrayList<CategoryBean>();
+		return lists;
+	}
+	
+	public List<GoodsBean> querGoodsBeans(){
+		List<GoodsBean> lists = new ArrayList<GoodsBean>();
+		return lists;
+	}
+	
 }
