@@ -1,5 +1,7 @@
 package com.ch.entity;
 
+import java.util.UUID;
+
 public class CategoryBean {
 	
 	public static final String KEY_STRING_UUID="uuid";
@@ -8,18 +10,28 @@ public class CategoryBean {
 	
 	public static final String KEY_STRING_NAME=  "name";
 	
-	private String UUID = "";
+	private String mUUID = "";
 	
 	private int mCategoryID = 0;
 	
 	private String mName = "";
 
+	public CategoryBean(){
+		
+	}
+	
+	public CategoryBean(int categoryid,String categoryname){
+		mUUID = UUID.randomUUID().toString();
+		this.mCategoryID = categoryid;
+		this.mName = categoryname;
+	}
+	
 	public String getUUID() {
-		return UUID;
+		return mUUID;
 	}
 
 	public void setUUID(String uUID) {
-		UUID = uUID;
+		mUUID = uUID;
 	}
 
 	public int getCategoryID() {

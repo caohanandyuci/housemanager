@@ -20,7 +20,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 	
 	private static final String DATABASE_NAME = "RecordsLocalData.db";
 	private static final int DATABASE_VERSION = 1;
-	public static final String GOODS_TABLE_NAME = "GoodsTableName";
+	public static final String GOODS_TABLE_NAME = "goodstablename";
 	
 	private static final String CREAT_GOODSTABLE_COLUMN = "(id integer primary key,"
 			+ GoodsBean.KEY_STRING_UUID +" VARCHAR(255),"
@@ -52,7 +52,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 			+ CategoryBean.KEY_STRING_NAME +" VARCHAR(255))";
 	
 	private static final String CATEGORYTABLE_COLUMN[] = {
-			GoodsBean.KEY_STRING_UUID,
+		    CategoryBean.KEY_STRING_UUID,
 			CategoryBean.KEY_INT_CATEGORYID,
 			CategoryBean.KEY_STRING_NAME	
 	};
@@ -181,7 +181,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		SQLiteDatabase database = getWritableDatabase();
 		List<OrderBean> lists =new ArrayList<OrderBean>();
 		Cursor cursor = null;
-		database.query(CREAT_ORDERTABLE_COLUMN, ORDERTABLE_COLUMN, null, null, null, null, null);
+		cursor = database.query(ORDER_TABLE_NAME, ORDERTABLE_COLUMN, null, null, null, null, null);
 		try {
 			while (cursor != null && cursor.moveToNext()) {
 				OrderBean orderbean = new OrderBean();
@@ -207,7 +207,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		SQLiteDatabase database = getWritableDatabase();
 		List<OrderDetailBean> lists =new ArrayList<OrderDetailBean>();
 		Cursor cursor = null;
-		database.query(CREAT_ORDERDETAILTABLE_COLUMN, ORDERDETAILTABLE_COLUMN, null, null, null, null, null);
+		cursor = database.query(ORDER_DETAIL_TABLE_NAME, ORDERDETAILTABLE_COLUMN, null, null, null, null, null);
 		try {
 			while (cursor != null && cursor.moveToNext()) {
 				OrderDetailBean orderdetailbean = new OrderDetailBean();
@@ -229,7 +229,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		SQLiteDatabase database = getWritableDatabase();
 		List<CategoryBean> lists =new ArrayList<CategoryBean>();
 		Cursor cursor = null;
-		database.query(CREAT_CATEGORYTABLE_COLUMN, CATEGORYTABLE_COLUMN, null, null, null, null, null);
+		cursor = database.query(CATEGORY_TABLE_NAME, CATEGORYTABLE_COLUMN, null, null, null, null, null);
 		try {
 			while (cursor != null && cursor.moveToNext()) {
 				CategoryBean categorybean = new CategoryBean();
@@ -251,7 +251,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		List<GoodsBean> lists = new ArrayList<GoodsBean>();
 
 		Cursor cursor = null;
-		database.query(GOODS_TABLE_NAME, GOODSTABLE_COLUMN, null, null, null, null, null);
+		cursor = database.query(GOODS_TABLE_NAME, GOODSTABLE_COLUMN, null, null, null, null, null);
 		try {
 			while (cursor != null && cursor.moveToNext()) {
 				GoodsBean goodsbean = new GoodsBean();

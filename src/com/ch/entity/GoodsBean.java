@@ -5,6 +5,13 @@ public class GoodsBean {
 	public GoodsBean(){
 		
 	}
+	
+	public GoodsBean(String goodsname,int goodscategroy,float price){
+		this.mGoodsName = goodsname;
+		this.mGoodsCategroy = goodscategroy;
+		this.mPrice = price;
+	}
+	
 	public static final String KEY_STRING_UUID = "uuid";
 	
 	public static final String KEY_STRING_GOODSNAME = "goodsname";

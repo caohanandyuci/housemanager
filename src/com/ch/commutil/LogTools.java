@@ -1,4 +1,4 @@
-package com.ch.sqlitehelper;
+package com.ch.commutil;
 
 import android.util.Log;
 

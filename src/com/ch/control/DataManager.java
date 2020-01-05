@@ -8,7 +8,6 @@ import com.ch.entity.GoodsBean;
 import com.ch.sqlitehelper.RecordsDatabaseHelper;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.util.SparseArray;
 
 public class DataManager {
@@ -44,4 +43,21 @@ public class DataManager {
 		List<GoodsBean> goodsBeans = new ArrayList<GoodsBean>();
 		return goodsBeans;
 	}
+	
+	public static void insertTestData(Context context){
+		RecordsDatabaseHelper databasehelper = new RecordsDatabaseHelper(context);
+		databasehelper.insertCategoryBean(new CategoryBean(1,"category1"));
+		databasehelper.insertCategoryBean(new CategoryBean(2,"category2"));
+		databasehelper.insertCategoryBean(new CategoryBean(3,"category3"));
+		databasehelper.insertCategoryBean(new CategoryBean(4,"category4"));
+		
+		databasehelper.insertGoodsBean(new GoodsBean("goods1",1,101.0f));
+		databasehelper.insertGoodsBean(new GoodsBean("goods2",1,102.0f));
+		databasehelper.insertGoodsBean(new GoodsBean("goods3",1,103.0f));
+		databasehelper.insertGoodsBean(new GoodsBean("goods4",1,104.0f));
+		databasehelper.insertGoodsBean(new GoodsBean("goods5",1,105.0f));
+		databasehelper.insertGoodsBean(new GoodsBean("goods6",1,106.0f));
+		
+	}
+	
 }
