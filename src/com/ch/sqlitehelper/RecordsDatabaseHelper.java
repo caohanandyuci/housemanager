@@ -6,7 +6,7 @@ import java.util.List;
 import com.ch.entity.CategoryBean;
 import com.ch.entity.GoodsBean;
 import com.ch.entity.OrderBean;
-import com.ch.entity.OrderDetailBean;
+import com.ch.entity.OrderItem;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -62,16 +62,16 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 	
 	
 	private static final String CREAT_ORDERDETAILTABLE_COLUMN = "(id integer primary key,"
-			+ OrderDetailBean.KEY_INT_NUMBER +" INTEGER,"
-			+ OrderDetailBean.KEY_LONG_RECORDTIME +" FLOAT,"
-			+ OrderDetailBean.KEY_STRING_GOODID +" INTEGER,"
-			+ OrderDetailBean.KEY_STRING_ORDERID +" VARCHAR(255))";
+			+ OrderItem.KEY_INT_NUMBER +" INTEGER,"
+			+ OrderItem.KEY_LONG_RECORDTIME +" FLOAT,"
+			+ OrderItem.KEY_STRING_GOODID +" INTEGER,"
+			+ OrderItem.KEY_STRING_ORDERID +" VARCHAR(255))";
 	
 	private static final String ORDERDETAILTABLE_COLUMN[] = {
-			OrderDetailBean.KEY_INT_NUMBER,
-			OrderDetailBean.KEY_LONG_RECORDTIME,
-			OrderDetailBean.KEY_STRING_GOODID,
-			OrderDetailBean.KEY_STRING_ORDERID
+			OrderItem.KEY_INT_NUMBER,
+			OrderItem.KEY_LONG_RECORDTIME,
+			OrderItem.KEY_STRING_GOODID,
+			OrderItem.KEY_STRING_ORDERID
 	};
 	
 	
@@ -121,18 +121,31 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		
 	}
 	
+	private ContentValues getGoodsBeanContentValues(GoodsBean goodsbean){
+		ContentValues values = new ContentValues();
+		values.put(GoodsBean.KEY_FLOAT_DISCOUNT, goodsbean.getDiscount());
+		values.put(GoodsBean.KEY_FLOAT_PRICE, goodsbean.getPrice());
+		values.put(GoodsBean.KEY_INT_GOODSCATEGROY,goodsbean.getGoodsCategroy());
+		values.put(GoodsBean.KEY_INT_MEMBERID, goodsbean.getMemberID());
+		values.put(GoodsBean.KEY_INT_NUMBER, goodsbean.getNumber());
+		values.put(GoodsBean.KEY_LONG_RECORDTIME, goodsbean.getRecordTime());
+		values.put(GoodsBean.KEY_STRING_GOODSNAME, goodsbean.getGoodsName());
+		values.put(GoodsBean.KEY_STRING_UUID, goodsbean.getGoodsID());
+		return values;
+	}
+	
+	public void replaceGoodsBean(GoodsBean goodsbean){
+		if (goodsbean != null) {
+			SQLiteDatabase database = getWritableDatabase();
+			ContentValues values = getGoodsBeanContentValues(goodsbean);
+			database.replace(GOODS_TABLE_NAME, null, values);
+		}
+	}
+	
 	public void insertGoodsBean(GoodsBean goodsbean) {
 		if (goodsbean != null) {
 			SQLiteDatabase database = getWritableDatabase();
-			ContentValues values = new ContentValues();
-			values.put(GoodsBean.KEY_FLOAT_DISCOUNT, goodsbean.getDiscount());
-			values.put(GoodsBean.KEY_FLOAT_PRICE, goodsbean.getPrice());
-			values.put(GoodsBean.KEY_INT_GOODSCATEGROY,goodsbean.getGoodsCategroy());
-			values.put(GoodsBean.KEY_INT_MEMBERID, goodsbean.getMemberID());
-			values.put(GoodsBean.KEY_INT_NUMBER, goodsbean.getNumber());
-			values.put(GoodsBean.KEY_LONG_RECORDTIME, goodsbean.getRecordTime());
-			values.put(GoodsBean.KEY_STRING_GOODSNAME, goodsbean.getGoodsName());
-			values.put(GoodsBean.KEY_STRING_UUID, goodsbean.getUUID());
+			ContentValues values = getGoodsBeanContentValues(goodsbean);
 			database.insert(GOODS_TABLE_NAME, null, values);
 		}
 	}
@@ -148,14 +161,14 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		}
 	}
 	
-	public void insertOrderDetailBean(OrderDetailBean orderdetailbean){
+	public void insertOrderDetailBean(OrderItem orderdetailbean){
 		if(orderdetailbean!=null){
 			SQLiteDatabase database = getWritableDatabase();
 			ContentValues values = new ContentValues();
-			values.put(OrderDetailBean.KEY_INT_NUMBER, orderdetailbean.getNumber());
-			values.put(OrderDetailBean.KEY_LONG_RECORDTIME, orderdetailbean.getRecordTime());
-			values.put(OrderDetailBean.KEY_STRING_GOODID, orderdetailbean.getGoodID());
-			values.put(OrderDetailBean.KEY_STRING_ORDERID,orderdetailbean.getOrderID());
+			values.put(OrderItem.KEY_INT_NUMBER, orderdetailbean.getNumber());
+			values.put(OrderItem.KEY_LONG_RECORDTIME, orderdetailbean.getRecordTime());
+			values.put(OrderItem.KEY_STRING_GOODID, orderdetailbean.getGoodsID());
+			values.put(OrderItem.KEY_STRING_ORDERID,orderdetailbean.getOrderID());
 			database.insert(ORDER_DETAIL_TABLE_NAME, null, values);
 		}
 	}
@@ -172,7 +185,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 			values.put(OrderBean.KEY_INT_ORDERSTATE, orderbean.getOrderState());
 			values.put(OrderBean.KEY_LONG_RECORDTIME, orderbean.getRecordTime());
 			values.put(OrderBean.KEY_STRING_DETAIL, orderbean.getDetail());
-			values.put(OrderBean.KEY_STRING_UUID,orderbean.getUUID());
+			values.put(OrderBean.KEY_STRING_UUID,orderbean.getOrderId());
 			database.insert(ORDER_TABLE_NAME, null, values);
 		}
 	}
@@ -192,7 +205,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 				orderbean.setOrderState(cursor.getInt(cursor.getColumnIndex(OrderBean.KEY_INT_ORDERSTATE)));
 				orderbean.setRecordTime(cursor.getLong(cursor.getColumnIndex(OrderBean.KEY_LONG_RECORDTIME)));
 				orderbean.setDetail(cursor.getString(cursor.getColumnIndex(OrderBean.KEY_STRING_DETAIL)));
-				orderbean.setUUID(cursor.getString(cursor.getColumnIndex(OrderBean.KEY_STRING_UUID)));
+				orderbean.setOrderId(cursor.getString(cursor.getColumnIndex(OrderBean.KEY_STRING_UUID)));
 				lists.add(orderbean);
 			}
 		} catch (Exception e) {
@@ -203,18 +216,18 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 		return lists;
 	}
 	
-	public List<OrderDetailBean> queryOrderDetailBeans(){
+	public List<OrderItem> queryOrderItemBeans(){
 		SQLiteDatabase database = getWritableDatabase();
-		List<OrderDetailBean> lists =new ArrayList<OrderDetailBean>();
+		List<OrderItem> lists =new ArrayList<OrderItem>();
 		Cursor cursor = null;
 		cursor = database.query(ORDER_DETAIL_TABLE_NAME, ORDERDETAILTABLE_COLUMN, null, null, null, null, null);
 		try {
 			while (cursor != null && cursor.moveToNext()) {
-				OrderDetailBean orderdetailbean = new OrderDetailBean();
-				orderdetailbean.setNumber(cursor.getInt(cursor.getColumnIndex(OrderDetailBean.KEY_INT_NUMBER)));
-				orderdetailbean.setRecordTime(cursor.getLong(cursor.getColumnIndex(OrderDetailBean.KEY_LONG_RECORDTIME)));
-				orderdetailbean.setGoodID(cursor.getString(cursor.getColumnIndex(OrderDetailBean.KEY_STRING_GOODID)));
-				orderdetailbean.setOrderID(cursor.getString(cursor.getColumnIndex(OrderDetailBean.KEY_STRING_ORDERID)));
+				OrderItem orderdetailbean = new OrderItem();
+				orderdetailbean.setNumber(cursor.getInt(cursor.getColumnIndex(OrderItem.KEY_INT_NUMBER)));
+				orderdetailbean.setRecordTime(cursor.getLong(cursor.getColumnIndex(OrderItem.KEY_LONG_RECORDTIME)));
+				orderdetailbean.setGoodsID(cursor.getString(cursor.getColumnIndex(OrderItem.KEY_STRING_GOODID)));
+				orderdetailbean.setOrderID(cursor.getString(cursor.getColumnIndex(OrderItem.KEY_STRING_ORDERID)));
 				lists.add(orderdetailbean);
 			}
 		} catch (Exception e) {
@@ -262,7 +275,7 @@ public class RecordsDatabaseHelper extends SQLiteOpenHelper{
 				goodsbean.setNumber(cursor.getInt(cursor.getColumnIndex(GoodsBean.KEY_INT_NUMBER)));
 				goodsbean.setmRecordTime(cursor.getLong(cursor.getColumnIndex(GoodsBean.KEY_LONG_RECORDTIME)));
 				goodsbean.setGoodsName(cursor.getString(cursor.getColumnIndex(GoodsBean.KEY_STRING_GOODSNAME)));
-				goodsbean.setUUID(cursor.getString(cursor.getColumnIndex(GoodsBean.KEY_STRING_UUID)));
+				goodsbean.setGoodsID(cursor.getString(cursor.getColumnIndex(GoodsBean.KEY_STRING_UUID)));
 				lists.add(goodsbean);
 			}
 		} catch (Exception e) {
