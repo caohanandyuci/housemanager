@@ -1,5 +1,7 @@
 package com.ch.entity;
 
+import com.ch.commutils.Utils;
+
 public class GoodsBean {
 	
 	public GoodsBean(){
@@ -7,6 +9,7 @@ public class GoodsBean {
 	}
 	
 	public GoodsBean(String goodsname,int goodscategroy,float price){
+		this.mGoodsID = Utils.createUUID();
 		this.mGoodsName = goodsname;
 		this.mGoodsCategroy = goodscategroy;
 		this.mPrice = price;
@@ -28,12 +31,22 @@ public class GoodsBean {
 	
 	public static final String KEY_LONG_RECORDTIME = "recordtime";
 	
-	private String UUID = "";
+	private String mGoodsID = "";
 	
 	private String mGoodsName = "";
 	
-	public String getUUID() {
-		return UUID;
+	public boolean isEquals(GoodsBean goodsbean) {
+		if (goodsbean != null) {
+			if (mGoodsName.equals(goodsbean.getGoodsName())) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+	
+	public String getGoodsID() {
+		return mGoodsID;
 	}
 
 	public String getGoodsName() {
@@ -65,8 +78,8 @@ public class GoodsBean {
 	}
 
 	
-	public void setUUID(String uuid) {
-		UUID = uuid;
+	public void setGoodsID(String goodsid) {
+		mGoodsID = goodsid;
 	}
 	
 	public void setGoodsName(String goodsname) {
