@@ -1,8 +1,8 @@
 package com.ch.entity;
 
-public class OrderDetailBean {
+public class OrderItem {
 
-	public static final String KEY_STRING_GOODID = "goodid";
+	public static final String KEY_STRING_GOODID = "goodsid";
 	
 	public static final String KEY_STRING_ORDERID = "orderid";
 	
@@ -10,20 +10,56 @@ public class OrderDetailBean {
 	
 	public static final String KEY_LONG_RECORDTIME = "recordtime";
 	
-	private String mGoodID = "";
+	private String mGoodsID = "";
 	
 	private String mOrderID = "";
 	
 	private int mNumber = 0;
 	
-	private long mRecordTime = 0L;
+	private transient long mRecordTime = 0L;
 
-	public String getGoodID() {
-		return mGoodID;
+	private transient GoodsBean mGoodsBean = null;
+	
+	public OrderItem(){
+		
+	}
+	
+	public OrderItem(String orderid,String goodsid){
+		mOrderID = orderid;
+		mGoodsID = goodsid;
+	}
+	
+	public OrderItem(String orderid,GoodsBean goodsbean){
+		mOrderID = orderid;
+		mGoodsBean = goodsbean;
+		mGoodsID = goodsbean.getGoodsID();
+	}
+	
+	public float getGoodsSumPrice(){
+		return mGoodsBean.getPrice()*mNumber;
+	}
+	
+	public String getGoodsName(){
+		if(mGoodsBean!=null){
+			return mGoodsBean.getGoodsName();
+		}
+		return null;
+	}
+	
+	public GoodsBean getGoodsBean(){
+		return mGoodsBean;
+	}
+	
+	public void setGoodsBean(GoodsBean goodsbean){
+		mGoodsBean = goodsbean;
+	}
+	
+	public String getGoodsID() {
+		return mGoodsID;
 	}
 
-	public void setGoodID(String goodID) {
-		mGoodID = goodID;
+	public void setGoodsID(String goodsID) {
+		mGoodsID = goodsID;
 	}
 
 	public String getOrderID() {
