@@ -1,4 +1,4 @@
-package com.ch.commutil;
+package com.ch.commutils;
 
 import android.util.Log;
 

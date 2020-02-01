@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ch.commutils.DataLoadingListener;
+import com.ch.commutils.LogTools;
 import com.ch.commutils.ThreadPoolTools;
 import com.ch.entity.CategoryBean;
 import com.ch.entity.GoodsBean;
-import com.ch.sqlitehelper.LogTools;
 import com.ch.sqlitehelper.RecordsDatabaseHelper;
 
 import android.content.Context;

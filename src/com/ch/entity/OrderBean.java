@@ -3,7 +3,7 @@ package com.ch.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ch.commutil.LogTools;
+import com.ch.commutils.LogTools;
 import com.ch.commutils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
 
