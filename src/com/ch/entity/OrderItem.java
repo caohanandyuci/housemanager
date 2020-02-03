@@ -20,6 +20,8 @@ public class OrderItem {
 
 	private transient GoodsBean mGoodsBean = null;
 	
+	public boolean IsChanged = false;
+	
 	public OrderItem(){
 		
 	}
@@ -75,6 +77,9 @@ public class OrderItem {
 	}
 
 	public void setNumber(int number) {
+		if (number != mNumber) {
+			IsChanged = true;
+		}
 		mNumber = number;
 	}
 

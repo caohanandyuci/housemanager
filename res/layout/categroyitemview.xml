@@ -3,14 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
-    android:paddingTop="10dp"
+    android:orientation="vertical"
+    android:focusable="false"
     android:paddingBottom="10dp"
-    android:orientation="vertical" >
-    <TextView 
+    android:background="@drawable/categoryinfoitemselector"
+    android:paddingTop="10dp" >
+
+    <TextView
         android:id="@+id/categoryitem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center_vertical"
+        android:gravity="center" />
 
 </LinearLayout>

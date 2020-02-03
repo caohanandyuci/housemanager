@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="orderitem_backgroud_normal_color">#ffffff</color>
+    <color name="orderitem_backgroud_selected_color">#eed5b7</color>
+    
+    <color name="categoryitem_background_normal_color">#cccccc</color>
+    <color name="categoryitem_background_selected_color">#ee4000</color>
+    <color name="categoryitem_text_normal_color">#000000</color>
+    <color name="categoryitem_text_selected_color">#ffffff</color>
+</resources>

@@ -17,10 +17,20 @@ public class GoodsInfoAdapter extends BaseAdapter{
 
 	private List<GoodsBean> mGoodsBeansList = new ArrayList<GoodsBean>();
     private Context mContext = null;
+    public GoodsInfoAdapter(Context context){
+      	this.mContext = context;
+    }
+    
     public GoodsInfoAdapter( Context context,List<GoodsBean> list){
         this.mGoodsBeansList = list;
         this.mContext = context;
     }
+    public void UpdateData(List<GoodsBean> list){
+    	   mGoodsBeansList.clear();
+    	   mGoodsBeansList.addAll(list);
+    	   notifyDataSetChanged();
+    }
+    
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -44,8 +54,10 @@ public class GoodsInfoAdapter extends BaseAdapter{
 		// TODO Auto-generated method stub
 		LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService((Context.LAYOUT_INFLATER_SERVICE));
         convertView = layoutInflater.inflate(R.layout.goodsitemview,null);
-        TextView textView = (TextView) convertView.findViewById(R.id.goodsitem);
-        textView.setText(mGoodsBeansList.get(position).getGoodsName());
+        TextView nametextView = (TextView) convertView.findViewById(R.id.goodsitem);
+        nametextView.setText(mGoodsBeansList.get(position).getGoodsName());
+        TextView priceTextView = (TextView) convertView.findViewById(R.id.goodsprice);
+        priceTextView.setText(String.valueOf(mGoodsBeansList.get(position).getPrice()));
         return convertView;
 	}
 

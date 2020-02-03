@@ -30,11 +30,13 @@ public class OrderManager {
 	}
 	
 	
-	public void InsertGoodsOfOrder(String orderid,GoodsBean goodsbean){
+	public boolean InsertGoodsOfOrder(String orderid,GoodsBean goodsbean){
+		boolean isExist = false;
 		OrderBean orderbean = mOrderMapper.get(orderid);
 		if(orderbean!=null){
-			orderbean.InsertGoodsBeanOfOrder(goodsbean);
+			isExist = orderbean.InsertGoodsBeanOfOrder(goodsbean);
 		}
+		return isExist;
 	}
 	
 	public void DeleteGoodsOfOrder(String orderid,GoodsBean goodsbean){
@@ -48,6 +50,14 @@ public class OrderManager {
 		if (mOrderMapper.containsKey(orderid)) {
 			mOrderMapper.remove(orderid);
 		}
+	}
+	
+	public List<OrderItem> getOrderItemsByOrderId(String orderid){
+		OrderBean orderbean = mOrderMapper.get(orderid);
+		if(orderbean!=null){
+			return orderbean.getOrderItems();
+		}
+		return null;
 	}
 	
 	public float CalculateOrderSumPrice(String orderid) {

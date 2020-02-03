@@ -8,6 +8,7 @@ import com.ch.commutils.JsonUtils;
 import com.google.gson.reflect.TypeToken;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 public class OrderBean {
 	
@@ -63,9 +64,9 @@ public class OrderBean {
 		return null;
 	}
 	
-	public void InsertGoodsBeanOfOrder(GoodsBean goodsbean){
+	public boolean InsertGoodsBeanOfOrder(GoodsBean goodsbean){
+		boolean isfound = false;
 		if(goodsbean!=null){
-			boolean isfound = false;
 			for(OrderItem orderitem:mOrderItems){
 				if(orderitem.getGoodsBean()!=null && goodsbean.isEquals(orderitem.getGoodsBean())){
 					int num = orderitem.getNumber();
@@ -74,6 +75,7 @@ public class OrderBean {
 					break;
 				}
 			}
+			Log.v(TAG, "InsertGoodsBeanOfOrder isfound:"+isfound);
 			if(isfound==false){
 				OrderItem orderitem = new OrderItem(this.mOrderId,goodsbean);
 				orderitem.setNumber(1);
@@ -81,6 +83,7 @@ public class OrderBean {
 			}
 			LogTools.logger(TAG, "mOrderItems.size:"+mOrderItems.size());
 		}
+		return isfound;
 	}
 	
 	public void DeleteGoodsBeanOfOrder(GoodsBean goodsbean){

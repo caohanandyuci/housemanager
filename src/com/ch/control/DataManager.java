@@ -21,7 +21,19 @@ public class DataManager {
 	
 	private SparseArray<CategoryBean> mCategoryMap = new SparseArray<CategoryBean>();
 	
+	private List<DataLoadingListener> mListeners = new ArrayList<DataLoadingListener>();
+	
 	private Context mContext = null;
+	
+	public void addDataChangedListener(DataLoadingListener listener) {
+		if (!mListeners.contains(listener)) {
+			mListeners.add(listener);
+		}
+	}
+	
+	public void removeDataChangedListener(DataLoadingListener listener){
+		mListeners.remove(listener);
+	}
 	
 	public DataManager(Context context){
 		mContext = context;
@@ -31,17 +43,20 @@ public class DataManager {
 
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
-			//loaddatafromdb(mContext);
+			LogTools.logger(TAG, "loaddatafromdb");
+			loaddatafromdb(mContext);
+			for(DataLoadingListener listener:mListeners){
+				listener.onLoadingComplete();
+			}
 		}
 		
 	};
 	
-	private void LoadDataFromDBOnThread(){
+	public void LoadDataFromDBOnThread(){
 		ThreadPoolTools.getInstance().SubmitTask(LoadDataFromDBRunnable);
 	}
 	
-	public void loaddatafromdb(Context context,DataLoadingListener listener){
+	private void loaddatafromdb(Context context){
 		RecordsDatabaseHelper databasehelper = new RecordsDatabaseHelper(context);
 		
 		List<CategoryBean> categoryBeans = databasehelper.queryCategoryBeans();
@@ -66,12 +81,16 @@ public class DataManager {
 		for(GoodsBean goodsbean:goodsBeans){
 			if(goodsbean!=null){
 				int goodscategory = goodsbean.getGoodsCategroy();
-				mSparseArray.put(goodscategory, goodsBeans);
+				List<GoodsBean> tempGoodsBeans = mSparseArray.get(goodscategory);
+				if(tempGoodsBeans == null){
+					tempGoodsBeans = new ArrayList<GoodsBean>();
+					tempGoodsBeans.add(goodsbean);
+					mSparseArray.put(goodscategory, tempGoodsBeans);
+				}else{
+					tempGoodsBeans.add(goodsbean);
+				}
 				LogTools.logger(TAG, "categoryid:"+goodsbean.getGoodsCategroy()+",,name:"+goodsbean.getGoodsName());
 			}
-		}
-		if(listener!=null){
-			listener.onLoadingComplete();
 		}
 	}
 	
@@ -130,10 +149,9 @@ public class DataManager {
 	
 	public static void insertTestData(Context context){
 		RecordsDatabaseHelper databasehelper = new RecordsDatabaseHelper(context);
-		databasehelper.insertCategoryBean(new CategoryBean(1,"category1"));
-		databasehelper.insertCategoryBean(new CategoryBean(2,"category2"));
-		databasehelper.insertCategoryBean(new CategoryBean(3,"category3"));
-		databasehelper.insertCategoryBean(new CategoryBean(4,"category4"));
+		for(int i=1;i<53;i++){
+			databasehelper.insertCategoryBean(new CategoryBean(i,"category"+i));
+		}
 		
 		databasehelper.insertGoodsBean(new GoodsBean("goods1_1",1,101.0f));
 		databasehelper.insertGoodsBean(new GoodsBean("goods1_2",1,102.0f));
