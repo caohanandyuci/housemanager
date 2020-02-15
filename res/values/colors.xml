@@ -7,4 +7,5 @@
     <color name="categoryitem_background_selected_color">#ee4000</color>
     <color name="categoryitem_text_normal_color">#000000</color>
     <color name="categoryitem_text_selected_color">#ffffff</color>
+    <color name="payview_background_color">#aaaaaa</color>
 </resources>

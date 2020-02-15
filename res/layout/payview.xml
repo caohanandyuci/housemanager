@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="400dp"
+    android:layout_height="300dp"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" 
+        android:padding="5dp">
+        <Button
+            android:layout_width="@dimen/payview_paybutton_width"
+            android:layout_height="@dimen/payview_paybutton_height"
+            android:layout_marginLeft="@dimen/payview_paybutton_layoutmargin_left"
+            android:textSize="@dimen/payview_paybutton_textsize"
+            android:background="@drawable/shape_corner"
+            android:text="现金"/>
+         <Button
+            android:layout_width="@dimen/payview_paybutton_width"
+            android:layout_height="@dimen/payview_paybutton_height"
+            android:layout_marginLeft="@dimen/payview_paybutton_layoutmargin_left"
+            android:textSize="@dimen/payview_paybutton_textsize"
+            android:background="@drawable/shape_corner"
+            android:text="银联"/>
+          <Button
+            android:layout_width="@dimen/payview_paybutton_width"
+            android:layout_height="@dimen/payview_paybutton_height"
+            android:layout_marginLeft="@dimen/payview_paybutton_layoutmargin_left"
+            android:textSize="@dimen/payview_paybutton_textsize"
+            android:background="@drawable/shape_corner"
+            android:text="一码付"/>
+           <Button
+            android:layout_width="@dimen/payview_paybutton_width"
+            android:layout_height="@dimen/payview_paybutton_height"
+            android:layout_marginLeft="@dimen/payview_paybutton_layoutmargin_left"
+            android:textSize="@dimen/payview_paybutton_textsize"
+            android:background="@drawable/shape_corner"
+            android:text="储值卡"/>
+           <Button
+            android:layout_width="@dimen/payview_paybutton_width"
+            android:layout_height="@dimen/payview_paybutton_height"
+            android:layout_marginLeft="@dimen/payview_paybutton_layoutmargin_left"
+            android:textSize="@dimen/payview_paybutton_textsize"
+            android:background="@drawable/shape_corner"
+            android:text="其他"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="200.00"
+        android:textColor="#cc0000"
+            />
+    </FrameLayout>
+    <GridLayout
+        android:id="@+id/payview_dnum_gridlayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        
+    </GridLayout>
+</LinearLayout>

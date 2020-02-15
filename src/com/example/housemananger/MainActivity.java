@@ -11,8 +11,10 @@ import com.ch.entity.OrderBean;
 import com.ch.entity.OrderItem;
 import com.ch.view.CategoryInfoView;
 import com.ch.view.GoodsInfoGridView;
+import com.ch.view.MenuPopupWindow;
 import com.ch.view.OrderDetailPopupView;
 import com.ch.view.OrderListView;
+import com.ch.view.PayDialog;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +29,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity implements DataLoadingListener{
+public class MainActivity extends Activity implements View.OnClickListener,DataLoadingListener{
 
 	private final String TAG = "MainActivity";
 	
@@ -38,8 +40,6 @@ public class MainActivity extends Activity implements DataLoadingListener{
         init(this);
     }
     
-    private TextView mDeleteButtonTextView = null;
-    
     private DataManager mDataManager = null;
     private OrderManager mOrderManager = null;
     private Handler mHandler = null;
@@ -49,17 +49,21 @@ public class MainActivity extends Activity implements DataLoadingListener{
     
     private OrderListView mOrderListView = null;
     private OrderDetailPopupView mPopupView = null;
+    
+    private int[] mButton = new int[]{R.id.paybutton,R.id.deletebutton,R.id.menubutton};
+    
     private void init(Context context){
     	    //DataManager.insertTestData(context);
+    	    for(int i=0;i<mButton.length;i++){
+    	      	findViewById(mButton[i]).setOnClickListener(this);
+    	    }
     	    mHandler = new Handler();
     	    mDataManager = new DataManager(context);
     	    mDataManager.addDataChangedListener(this);
     	    
     	    mOrderManager = new OrderManager();
     	    mCurrentOrderBean = mOrderManager.CreateOrder();
-    	   
-        mDeleteButtonTextView = (TextView) findViewById(R.id.deletebutton);
-        mDeleteButtonTextView.setOnClickListener(mDeleteButtOnClickListener);
+    	    
         mGoodsGridView = (GoodsInfoGridView) findViewById(R.id.goodsgirdview);
         mGoodsGridView.setOnItemClickListener(mGoodsGridviewOnItemClickListener);
         mGoodsGridView.attchDataManager(mDataManager);
@@ -197,5 +201,50 @@ public class MainActivity extends Activity implements DataLoadingListener{
 	public void onLoadingCancelled() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	private void onDeleteButton_onClick(View view){
+		
+	}
+	
+	private void onPayButton_onClick(View view){
+		PayDialog payDialog = new PayDialog(this,R.style.PayDialog);
+		payDialog.show();
+	}
+	
+	private MenuPopupWindow menuPopupWindow = null;
+	private void onMenuButton_onClick(View view){
+		if(menuPopupWindow!=null){
+			if(menuPopupWindow.isShowing()){
+				menuPopupWindow.dismiss();
+			}else{
+				menuPopupWindow.showAsDropDown(findViewById(R.id.rootrelativeview), 0,
+						-findViewById(R.id.rootrelativeview).getHeight());
+			}
+		} else {
+			menuPopupWindow = new MenuPopupWindow(this);
+			menuPopupWindow.showAsDropDown(findViewById(R.id.rootrelativeview), 0,
+					-findViewById(R.id.rootrelativeview).getHeight());
+		}
+	}
+	
+	@Override
+	public void onClick(View view) {
+		// TODO Auto-generated method stub
+		LogTools.logger(TAG, "view id:"+view.getId());
+		switch (view.getId()) {
+		case R.id.deletebutton:
+			onDeleteButton_onClick(view);
+			break;
+		case R.id.paybutton:
+			onPayButton_onClick(view);
+			break;
+		case R.id.menubutton:
+			onMenuButton_onClick(view);
+			break;
+		default:
+			break;
+		}
 	}
 }
